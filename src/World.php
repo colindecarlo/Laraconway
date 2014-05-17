@@ -48,6 +48,7 @@ final class World
             }
         }
         $this->positions = $newWorld;
+        $this->draw();
     }
 
     protected function nextStateAt($x, $y)
@@ -73,10 +74,26 @@ final class World
         $livingNeighbours = 0;
         for ($i = -1; $i <= 1; $i++) {
             for ($j = -1; $j <= 1; $j++) {
+                if ($i == 0 && $j == 0) {
+                    continue;
+                }
                 $livingNeighbours += $this->livingAt($x+$i, $y+$j) ? 1 : 0;
             }
         }
 
         return $livingNeighbours;
+    }
+
+    public function draw()
+    {
+        printf("---------------------------------------------------\n");
+        foreach ($this->positions as $row) {
+            foreach ($row as $cell) {
+                printf("%s", $cell ? "x" : " ");
+            }
+            echo PHP_EOL;
+        }
+        printf("---------------------------------------------------\n");
+        usleep(50000);
     }
 }
