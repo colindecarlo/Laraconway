@@ -27,11 +27,11 @@ final class World
 
     public function livingAt($x, $y)
     {
-        if (!isset($this->positions[$x])) {
+        if ($x < 0 || $y < 0 || $x > 99 || $y > 99) {
             return false;
         }
 
-        return isset($this->positions[$x][$y]) ? $this->positions[$x][$y] : false;
+        return $this->positions[$x][$y];
     }
 
     public function tick()
@@ -47,6 +47,31 @@ final class World
 
     protected function nextStateAt($x, $y)
     {
-        return false;
+        $livingNeighbours = $this->countLivingNeighbours($x, $y);
+        $cell = $this->positions[$x][$y];
+
+        if ($cell && $livingNeighbours < 2) {
+            return false;
+        }
+        if ($cell && $livingNeighbours > 3) {
+            return false;
+        }
+        if (!$cell && $livingNeighbours != 3) {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function countLivingNeighbours($x, $y)
+    {
+        $livingNeighbours = 0;
+        for ($i = -1; $i <= 1; $i++) {
+            for ($j = -1; $j <= 1; $j++) {
+                $livingNeighbours += $this->livingAt($x+$i, $y+$j) ? 1 : 0;
+            }
+        }
+
+        return $livingNeighbours;
     }
 }
