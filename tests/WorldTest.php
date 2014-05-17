@@ -16,8 +16,10 @@ class WorldTest extends \PHPUnit_Framework_TestCase
     {
         $world = World::create();
         $world->placeLivingCell(1, 1);
+        $world->placeLivingCell(0, 1);
         $world->tick();
         $this->assertFalse($world->livingAt(1, 1));
+        $this->assertFalse($world->livingAt(0, 1));
     }
 
     public function test_live_cell_with_two_or_three_live_neighbours_lives()
