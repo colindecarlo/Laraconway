@@ -5,9 +5,14 @@ namespace Laraconway;
 final class World
 {
     protected $positions; 
+    protected $numRows;
+    protected $numColumns;
 
-    protected function __construct($rows = 100, $columns = 100)
+    protected function __construct($rows, $columns)
     {
+        $this->numRows = $rows;
+        $this->numColumns = $columns;
+
         for ($x = 0; $x < $rows; $x++) {
             for ($y = 0; $y < $columns; $y++) {
                 $this->positions[$x][$y] = false;
@@ -15,9 +20,9 @@ final class World
         }
     }
 
-    public static function create()
+    public static function create($rows = 100, $columns = 100)
     {
-        return new self;
+        return new self($rows, $columns);
     }
 
     public function placeLivingCell($x, $y)
@@ -27,7 +32,7 @@ final class World
 
     public function livingAt($x, $y)
     {
-        if ($x < 0 || $y < 0 || $x > 99 || $y > 99) {
+        if ($x < 0 || $y < 0 || $x > $this->numRows - 1  || $y > $this->numColumns - 1) {
             return false;
         }
 
