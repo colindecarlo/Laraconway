@@ -86,14 +86,14 @@ final class World
 
     public function draw()
     {
-        printf("---------------------------------------------------\n");
+        $serialized = [];
         foreach ($this->positions as $row) {
+            $rowRep = [];
             foreach ($row as $cell) {
-                printf("%s", $cell ? "x" : " ");
+                 $rowRep[] = $cell ? "X" : " ";
             }
-            echo PHP_EOL;
+            $serialized[] = $rowRep;
         }
-        printf("---------------------------------------------------\n");
-        usleep(50000);
+        return $serialized;
     }
 }
